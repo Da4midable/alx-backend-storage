@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     -- The 'name' column: a string with a maximum length of 255 characters
     name VARCHAR(255),
-    country enum('US', 'CO', 'TN'),
+    country enum('US', 'CO', 'TN') NOT NULL DEFAULT 'US',
     -- Set 'id' as the primary key of the table
     PRIMARY KEY (id)
 );

@@ -1,0 +1,1 @@
+Advanced MySQL is here!

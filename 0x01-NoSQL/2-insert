@@ -1,0 +1,7 @@
+// Script creates the "school" collection if it doesn't exist and  inserts a document into the "school" collection
+
+db.createCollection("school")
+
+db.school.insert({
+    name: "Holberton school"
+})

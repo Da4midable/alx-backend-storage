@@ -6,7 +6,7 @@ stored in MongoDB
 from pymongo import MongoClient
 
 
-def log_the_stats():
+def log_stats():
     """
     function provides some stats about Nginx logs
     stored in MongoDB
@@ -22,15 +22,15 @@ def log_the_stats():
     path = logs_collection.count_documents(
         {"method": "GET", "path": "/status"})
 
-    print("{} logs" % total)
+    print(f"{total} logs")
     print("Methods:")
-    print("\tmethod GET: {}" % get)
-    print("\tmethod POST: {}" % post)
-    print("\tmethod PUT: {}" % put)
-    print("\tmethod PATCH: {}" % patch)
-    print("\tmethod DELETE: {}" % delete)
-    print("{} status check" % path)
+    print(f"\tmethod GET: {get}")
+    print(f"\tmethod POST: {post}")
+    print(f"\tmethod PUT: {put}")
+    print(f"\tmethod PATCH: {patch}")
+    print(f"\tmethod DELETE: {delete}")
+    print(f"{path} status check")
 
 
 if __name__ == "__main__":
-    log_the_stats()
+    log_stats()

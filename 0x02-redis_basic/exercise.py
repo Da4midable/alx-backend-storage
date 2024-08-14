@@ -57,7 +57,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self, data) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Stores the provided data in Redis using a unique UUID key.
 
@@ -72,7 +72,6 @@ class Cache:
         str
             The UUID key as a string under which the data was stored.
         """
-        my_uuid = str(uuid.uuid4())
-        str_data = data.decode('utf-8')
-        self._redis.set(my_uuid, str_data)
-        return my_uuid
+        key = str(uuid.uuid4())
+        self._redis.set(key, data)
+        return key

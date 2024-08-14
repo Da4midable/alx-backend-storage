@@ -25,7 +25,7 @@ Example:
 
 import redis
 import uuid
-from typing import Union
+from typing import Union, Callable, Optional
 
 
 class Cache:
@@ -76,3 +76,66 @@ class Cache:
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
+
+    def get(self, key: str, fn:
+            Optional[Callable] = None) -> Optional[Union[str, bytes, int]]:
+        """
+        Retrieves the data stored under the given key
+        and applies the conversion function if provided.
+
+        Args:
+        -----
+        key : str
+            The key under which the data is stored in Redis.
+        fn : Optional[Callable], default=None
+            A callable function that will be used to convert
+            the data to the desired format.
+
+        Returns:
+        --------
+        Optional[Union[str, bytes, int]]
+            The retrieved data, optionally converted using
+            the provided function, or None if the key does not exist.
+        """
+        value = self._redis.get(key)
+        if value is None:
+            return None
+        if fn is not None:
+            return fn(value)
+        return value
+
+    def get_str(self, key: str) -> Optional[str]:
+        """
+        Retrieves the data stored under the given key
+        and decodes it as a UTF-8 string.
+
+        Args:
+        -----
+        key : str
+            The key under which the data is stored in Redis.
+
+        Returns:
+        --------
+        Optional[str]
+            The retrieved data decoded as a UTF-8 string,
+            or None if the key does not exist.
+        """
+        return self.get(key, fn=lambda d: d.decode('utf-8'))
+
+    def get_int(self, key: str) -> Optional[int]:
+        """
+        Retrieves the data stored under the given key
+        and converts it to an integer.
+
+        Args:
+        -----
+        key : str
+            The key under which the data is stored in Redis.
+
+        Returns:
+        --------
+        Optional[int]
+            The retrieved data converted to an integer,
+            or None if the key does not exist.
+        """
+        return self.get(key, fn=lambda d: int(d))
